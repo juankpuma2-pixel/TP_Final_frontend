@@ -1,102 +1,218 @@
 @import "tailwindcss";
 
 @layer utilities {
-  .font-serif-gold {
-    font-family: 'Cinzel', serif;
+  /* Tipografía Deportiva de Alto Rendimiento */
+  .font-display {
+    font-family: 'Chakra Petch', sans-serif;
   }
 
+  .font-serif-gold {
+    font-family: 'Chakra Petch', sans-serif;
+  }
+
+  /* Gradientes de Texto de Alto Impacto */
+  .text-gradient-volt {
+    background: linear-gradient(135deg, #ffffff 0%, #bbf7d0 25%, #00ff66 70%, #00e5ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-silver {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 40%, #cbd5e1 75%, #64748b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Alias retrocompatible para títulos */
   .text-gold-gradient {
-    background: linear-gradient(135deg, #fff7ad 0%, #ffd700 25%, #d4af37 50%, #f59e0b 75%, #b45309 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #dcfce7 30%, #00ff66 80%, #00e5ff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .text-gold-bright {
-    color: #fbbf24;
-    text-shadow: 0 0 12px rgba(251, 191, 36, 0.35);
+    color: #00ff66;
+    text-shadow: 0 0 16px rgba(0, 255, 102, 0.45);
   }
 
-  .border-gold-glow {
-    border-color: rgba(245, 158, 11, 0.35);
-    box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+  /* Tarjetas y Contenedores Stealth Gym */
+  .bg-stealth-base {
+    background-color: #0b0c0f;
+  }
+
+  .card-athletic {
+    background: linear-gradient(165deg, rgba(23, 26, 33, 0.95) 0%, rgba(13, 15, 19, 0.98) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-athletic:hover {
+    border-color: rgba(0, 255, 102, 0.35);
+    box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 255, 102, 0.12);
+    transform: translateY(-2px);
+  }
+
+  /* Alias retrocompatible de tarjetas */
+  .bg-purple-card {
+    background: linear-gradient(165deg, rgba(23, 26, 33, 0.95) 0%, rgba(13, 15, 19, 0.98) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
   .bg-purple-glass {
-    background: rgba(22, 10, 42, 0.75);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(16, 18, 23, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .bg-purple-card {
-    background: linear-gradient(145deg, rgba(30, 14, 58, 0.9), rgba(15, 6, 30, 0.95));
+  /* Botones Deportivos Neón / Volt */
+  .btn-volt {
+    background: linear-gradient(135deg, #00ff66 0%, #00e575 60%, #00cc55 100%);
+    color: #08090b;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 18px rgba(0, 255, 102, 0.3);
   }
 
+  .btn-volt:hover {
+    background: linear-gradient(135deg, #33ff85 0%, #00ff66 60%, #00f070 100%);
+    box-shadow: 0 6px 26px rgba(0, 255, 102, 0.55);
+    transform: translateY(-1px) scale(1.01);
+    color: #000000;
+  }
+
+  .btn-volt:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 255, 102, 0.25);
+  }
+
+  /* Alias retrocompatible de botones primarios */
   .btn-gold {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
-    color: #0b0518;
-    font-weight: 700;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25);
+    background: linear-gradient(135deg, #00ff66 0%, #00e575 60%, #00cc55 100%);
+    color: #08090b;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 18px rgba(0, 255, 102, 0.3);
   }
 
   .btn-gold:hover {
-    background: linear-gradient(135deg, #fef08a 0%, #fbbf24 50%, #f59e0b 100%);
-    box-shadow: 0 6px 22px rgba(245, 158, 11, 0.4);
+    background: linear-gradient(135deg, #33ff85 0%, #00ff66 60%, #00f070 100%);
+    box-shadow: 0 6px 26px rgba(0, 255, 102, 0.55);
+    transform: translateY(-1px) scale(1.01);
+    color: #000000;
+  }
+
+  .btn-outline-volt {
+    border: 1px solid rgba(0, 255, 102, 0.4);
+    color: #00ff66;
+    background: rgba(0, 255, 102, 0.04);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition: all 0.25s ease;
+  }
+
+  .btn-outline-volt:hover {
+    border-color: #00ff66;
+    background: rgba(0, 255, 102, 0.14);
+    box-shadow: 0 0 20px rgba(0, 255, 102, 0.25);
+    color: #ffffff;
     transform: translateY(-1px);
   }
 
-  .btn-gold:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
-  }
-
+  /* Alias retrocompatible de botón outline */
   .btn-outline-gold {
-    border: 1px solid rgba(245, 158, 11, 0.5);
-    color: #fbbf24;
-    background: rgba(245, 158, 11, 0.05);
+    border: 1px solid rgba(0, 255, 102, 0.4);
+    color: #00ff66;
+    background: rgba(0, 255, 102, 0.04);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 700;
     transition: all 0.25s ease;
   }
 
   .btn-outline-gold:hover {
-    border-color: #fbbf24;
-    background: rgba(245, 158, 11, 0.15);
-    box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+    border-color: #00ff66;
+    background: rgba(0, 255, 102, 0.14);
+    box-shadow: 0 0 20px rgba(0, 255, 102, 0.25);
     color: #ffffff;
+    transform: translateY(-1px);
   }
 
+  /* Inputs Stealth */
+  .input-stealth {
+    background-color: rgba(14, 16, 21, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    transition: all 0.2s ease;
+  }
+
+  .input-stealth:focus {
+    outline: none;
+    border-color: #00ff66;
+    box-shadow: 0 0 14px rgba(0, 255, 102, 0.3);
+    background-color: rgba(18, 21, 28, 0.98);
+  }
+
+  /* Alias retrocompatible de input */
   .input-purple {
-    background-color: rgba(15, 6, 30, 0.8);
-    border: 1px solid rgba(245, 158, 11, 0.25);
-    color: #f3e8ff;
+    background-color: rgba(14, 16, 21, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
     transition: all 0.2s ease;
   }
 
   .input-purple:focus {
     outline: none;
-    border-color: #f59e0b;
-    box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
-    background-color: rgba(24, 10, 48, 0.9);
+    border-color: #00ff66;
+    box-shadow: 0 0 14px rgba(0, 255, 102, 0.3);
+    background-color: rgba(18, 21, 28, 0.98);
   }
 
-  .gold-divider {
+  /* Badges Atléticos */
+  .badge-profit {
+    background: rgba(0, 255, 102, 0.12);
+    color: #00ff66;
+    border: 1px solid rgba(0, 255, 102, 0.35);
+  }
+
+  .badge-dryfit {
+    background: rgba(0, 229, 255, 0.12);
+    color: #00e5ff;
+    border: 1px solid rgba(0, 229, 255, 0.35);
+  }
+
+  .badge-oferta {
+    background: rgba(255, 51, 68, 0.15);
+    color: #ff3344;
+    border: 1px solid rgba(255, 51, 68, 0.4);
+  }
+
+  .volt-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(245, 158, 11, 0.4) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 102, 0.4) 50%, transparent 100%);
   }
 }
 
-/* Global scrollbar styling */
+/* Scrollbar Deportiva Stealth */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0518;
+  background: #090a0d;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3b1870;
+  background: #232731;
   border-radius: 4px;
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #f59e0b;
+  background: #00ff66;
 }

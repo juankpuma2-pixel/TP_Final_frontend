@@ -46,11 +46,12 @@ export function AuthProvider({ children }) {
   const loginCliente = async (credentials) => {
     const data = await loginClienteApi(credentials);
     const tokenVal = data.token || data.access_token || localStorage.getItem("access_token");
-    const userInfo = data.usuario || { email: credentials.email, nombre: credentials.email.split('@')[0], is_admin: false };
+    const isUserAdmin = data.usuario?.is_admin === true || data.usuario?.rol === "admin";
+    const userInfo = data.usuario || { email: credentials.email, nombre: credentials.email.split('@')[0], is_admin: isUserAdmin, rol: isUserAdmin ? "admin" : "customer" };
     
     setToken(tokenVal);
     setUser(userInfo);
-    setIsAdmin(false);
+    setIsAdmin(isUserAdmin);
     return data;
   };
 
@@ -58,7 +59,7 @@ export function AuthProvider({ children }) {
     try {
       const data = await loginAdminApi(credentials);
       const tokenVal = data.token || data.access_token || localStorage.getItem("access_token");
-      const userInfo = data.usuario || { email: credentials.email, nombre: "Administrador", is_admin: true };
+      const userInfo = data.usuario || { email: credentials.email, nombre: "Administrador", is_admin: true, rol: "admin" };
       
       setToken(tokenVal);
       setUser(userInfo);

@@ -49,14 +49,14 @@ export default function MisPedidos() {
   };
 
   if (cargando) {
-    return <div className="text-center py-16 text-amber-300 font-medium">Cargando historial de compras... ⏳</div>;
+    return <div className="text-center py-16 text-[#00ff66] font-display font-bold text-sm tracking-wider">Cargando historial de pedidos atleta... ⏳</div>;
   }
 
   if (error) {
     return (
       <div className="max-w-xl mx-auto text-center py-12">
-        <div className="bg-red-950/90 border border-red-500/50 text-red-200 p-6 rounded-2xl shadow-xl">
-          <h3 className="text-lg font-bold">{error}</h3>
+        <div className="card-athletic border border-red-500/30 text-red-300 p-6 rounded-2xl shadow-xl">
+          <h3 className="text-base font-bold">{error}</h3>
         </div>
       </div>
     );
@@ -65,10 +65,10 @@ export default function MisPedidos() {
   if (pedidos.length === 0) {
     return (
       <div className="max-w-xl mx-auto text-center py-16">
-        <div className="bg-purple-card border border-amber-500/30 rounded-2xl p-8 shadow-2xl space-y-3">
-          <span className="text-4xl">📦</span>
-          <h3 className="text-xl font-bold text-amber-300">Aún no realizaste ninguna compra</h3>
-          <p className="text-purple-300 text-xs">Tus compras confirmadas aparecerán en esta sección.</p>
+        <div className="card-athletic rounded-3xl p-8 sm:p-10 space-y-3">
+          <span className="text-4xl text-[#00ff66]">📦</span>
+          <h3 className="font-display text-xl font-bold text-white uppercase tracking-wider">Aún no realizaste ningún pedido</h3>
+          <p className="text-neutral-400 text-xs">Tus compras de equipamiento TITAN aparecerán detalladas aquí.</p>
         </div>
       </div>
     );
@@ -77,62 +77,62 @@ export default function MisPedidos() {
   return (
     <div className="max-w-3xl mx-auto py-8 space-y-6">
       <div>
-        <span className="text-xs uppercase tracking-widest text-amber-400 font-bold">Historial de Usuario</span>
-        <h2 className="text-3xl font-serif-gold font-bold text-gold-gradient">Mis Compras</h2>
+        <span className="text-[10px] uppercase tracking-[0.25em] text-[#00ff66] font-black">Historial de Equipamiento</span>
+        <h2 className="font-display text-3xl font-black text-white uppercase tracking-wider">Mis Pedidos Atleta</h2>
       </div>
 
       {mensajeCodigo && (
         <div
           role="status"
-          className="bg-emerald-950/90 border border-emerald-500/50 text-emerald-200 p-4 rounded-xl font-semibold shadow-lg text-sm"
+          className="bg-[#00ff66]/10 border border-[#00ff66]/40 text-[#00ff66] p-4 rounded-xl font-bold shadow-lg text-xs"
         >
           ✅ {mensajeCodigo}
         </div>
       )}
 
       {pedidos.map((pedido) => (
-        <div key={pedido.id} className="bg-purple-card border border-amber-500/30 rounded-2xl p-6 shadow-xl space-y-4">
-          <div className="flex justify-between items-center font-bold text-amber-200 border-b border-purple-800/40 pb-3">
-            <span className="text-lg">Pedido #{pedido.id}</span>
+        <div key={pedido.id} className="card-athletic rounded-3xl p-6 space-y-4">
+          <div className="flex justify-between items-center font-bold text-white border-b border-white/10 pb-3">
+            <span className="font-display text-lg tracking-wide uppercase">Orden #{pedido.id}</span>
             <span
-              className={`text-xs px-3 py-1 rounded-full uppercase font-bold ${
+              className={`text-[10px] px-3 py-1 rounded-full uppercase font-black tracking-wider ${
                 pedido.estado === "cancelado"
-                  ? "bg-red-950 text-red-300 border border-red-500/40"
-                  : "bg-emerald-950 text-emerald-300 border border-emerald-500/40"
+                  ? "bg-red-500/10 text-red-400 border border-red-500/30"
+                  : "bg-[#00ff66]/15 text-[#00ff66] border border-[#00ff66]/40"
               }`}
             >
               {pedido.estado}
             </span>
           </div>
 
-          <p className="text-xs text-purple-300">
-            Fecha: {new Date(pedido.creado_en).toLocaleString('es-AR')}
+          <p className="text-xs text-neutral-400 font-mono">
+            Fecha de Orden: {new Date(pedido.creado_en).toLocaleString('es-AR')}
           </p>
 
-          <ul className="divide-y divide-purple-800/30 text-sm text-purple-200 pt-1">
+          <ul className="divide-y divide-white/5 text-sm text-neutral-300 pt-1">
             {pedido.items.map((item) => (
-              <li key={item.producto_id} className="py-2 flex justify-between">
-                <span>Producto ID: {item.producto_id} (x{item.cantidad})</span>
-                <span className="font-semibold text-amber-300">${item.precio_unitario} c/u</span>
+              <li key={item.producto_id} className="py-2.5 flex justify-between items-center">
+                <span className="text-xs">Prenda ID: <strong className="text-white">#{item.producto_id}</strong> (x{item.cantidad} u.)</span>
+                <span className="font-display font-bold text-[#00ff66] text-sm">${item.precio_unitario}</span>
               </li>
             ))}
           </ul>
 
-          <div className="border-t border-purple-800/50 pt-3 flex justify-between items-center">
+          <div className="border-t border-white/10 pt-3 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
             <div>
               {puedeRevocar(pedido) && (
                 <button
                   disabled={enviando}
                   onClick={() => handleRevocar(pedido.id)}
-                  className="px-3.5 py-1.5 bg-red-950 hover:bg-red-900 border border-red-500/40 text-red-200 text-xs font-semibold rounded-xl transition-colors disabled:opacity-50 cursor-pointer"
+                  className="px-3.5 py-1.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-bold rounded-xl transition-colors disabled:opacity-50 cursor-pointer"
                 >
-                  {enviando ? "Procesando..." : "Arrepentirme de esta compra"}
+                  {enviando ? "Procesando..." : "Revocar este pedido (Arrepentimiento)"}
                 </button>
               )}
             </div>
 
-            <span className="text-xl font-bold text-gold-gradient">
-              Total: ${pedido.total?.toLocaleString('es-AR')}
+            <span className="font-display text-2xl font-black text-white text-right">
+              Total: <strong className="text-[#00ff66]">${pedido.total?.toLocaleString('es-AR')}</strong>
             </span>
           </div>
         </div>

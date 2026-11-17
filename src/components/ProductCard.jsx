@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useCarrito } from '../context/CarritoContext';
 import { DEFAULT_PRODUCT_IMAGE } from '../services/api';
+import { urlImagen } from '../utils/imagenes';
 
 export function ProductCard({
   producto,
@@ -11,115 +12,152 @@ export function ProductCard({
   garantia_meses,
   stock,
   imagen,
+  imagen_url,
+  badge,
   onEliminar,
+  onVerDetalle,
   isAdmin = false
 }) {
   const { agregar } = useCarrito();
 
   const p = producto || {};
 
-  const name = nombre ?? p.nombre ?? 'Producto Aura';
+  const name = nombre ?? p.nombre ?? 'Prenda Compresión TITAN';
   const precioFinal = precio_final ?? p.precio_final ?? 0;
   const cuotasCantidad = cuotas_cantidad ?? p.cuotas_cantidad;
   const cuotasValor = cuotas_valor ?? p.cuotas_valor;
   const garantiaMeses = garantia_meses ?? p.garantia_meses;
   const stockUnidades = stock ?? p.stock;
-  const rawImagen = imagen || p.imagen || p.image || p.foto;
+  const idProducto = p.id || p._id || 1;
 
-  // Manejo de imagen con placeholder dorado/morado por defecto si no hay URL o si falla
-  const [imgSrc, setImgSrc] = useState(rawImagen && rawImagen.trim() !== '' ? rawImagen : DEFAULT_PRODUCT_IMAGE);
-  const [imgError, setImgError] = useState(false);
+  // Resolución de imagen mediante la utilidad oficial urlImagen
+  const imgUrl = urlImagen(p.imagen_url ? p : { ...p, imagen_url: imagen_url || imagen });
 
-  const handleImageError = () => {
-    if (!imgError) {
-      setImgError(true);
-      setImgSrc(DEFAULT_PRODUCT_IMAGE);
-    }
+  // Badge deportivo derivado o personalizado
+  const pId = parseInt(idProducto, 10) || 1;
+  const defaultBadges = ['PRO-FIT', 'COMPRESSION 2.0', 'DRY-FIT', 'OFERTA -20%'];
+  const activeBadge = badge || p.badge || defaultBadges[pId % defaultBadges.length];
+
+  const getBadgeStyle = (b) => {
+    if (b.includes('PRO-FIT')) return 'bg-[#00ff66]/15 text-[#00ff66] border-[#00ff66]/40 shadow-[0_0_12px_rgba(0,255,102,0.2)]';
+    if (b.includes('COMPRESSION')) return 'bg-[#00e5ff]/15 text-[#00e5ff] border-[#00e5ff]/40 shadow-[0_0_12px_rgba(0,229,255,0.2)]';
+    if (b.includes('DRY-FIT')) return 'bg-white/10 text-white border-white/30';
+    return 'bg-[#ff3344]/15 text-[#ff3344] border-[#ff3344]/40 shadow-[0_0_12px_rgba(255,51,68,0.2)]';
   };
 
   const productoParaCarrito = producto || {
-    id: p.id || Date.now(),
+    id: idProducto,
     nombre: name,
     precio_final: precioFinal,
     stock: stockUnidades,
-    imagen: imgSrc,
+    imagen: imgUrl,
   };
 
-  const idProducto = p.id || p._id;
-
   return (
-    <div className="group relative bg-purple-card border border-amber-500/20 rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between overflow-hidden backdrop-blur-md">
-      {/* Resplandor decorativo dorado de fondo en hover */}
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all duration-500 pointer-events-none"></div>
+    <div className="group relative card-athletic rounded-2xl p-4 sm:p-5 flex flex-col justify-between overflow-hidden">
+      {/* Resplandor Neón Volt de fondo en hover */}
+      <div className="absolute -top-24 -right-24 w-44 h-44 bg-[#00ff66]/10 rounded-full blur-3xl group-hover:bg-[#00ff66]/20 transition-all duration-700 pointer-events-none"></div>
 
       <div>
-        {/* Contenedor de Imagen de producto */}
-        <div className="relative w-full h-52 rounded-xl overflow-hidden mb-4 bg-purple-950/80 border border-purple-800/40 group-hover:border-amber-500/30 transition-colors">
-          <img
-            src={imgSrc}
-            alt={name}
-            onError={handleImageError}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
+        {/* Contenedor de Imagen de producto con aspect-square para evitar saltos en la grilla */}
+        <div
+          onClick={() => onVerDetalle && onVerDetalle(p)}
+          className={`relative w-full aspect-square rounded-xl overflow-hidden mb-4 bg-[#0d0f14] border border-white/10 group-hover:border-[#00ff66]/40 transition-colors flex items-center justify-center ${
+            onVerDetalle ? 'cursor-pointer' : ''
+          }`}
+        >
+          {imgUrl ? (
+            <img
+              src={imgUrl}
+              alt={p.nombre || name}
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = DEFAULT_PRODUCT_IMAGE;
+              }}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+            />
+          ) : (
+            /* Marcador de posición (placeholder) con idéntico aspect-square y texto "Sin imagen" */
+            <div className="w-full h-full aspect-square flex flex-col items-center justify-center bg-[#10131a] text-neutral-400 text-xs font-bold uppercase tracking-wider select-none border border-dashed border-white/10 p-4 text-center">
+              <span className="text-3xl mb-1.5 opacity-50">🖼️</span>
+              <span>Sin imagen</span>
+            </div>
+          )}
+
+          {/* Badge de Tecnología Deportiva */}
+          <span className={`absolute top-2.5 left-2.5 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md border backdrop-blur-md ${getBadgeStyle(activeBadge)}`}>
+            {activeBadge}
+          </span>
+
+          {/* Indicador de Stock */}
           {stockUnidades != null && (
-            <span className="absolute top-2 right-2 bg-purple-950/90 text-amber-300 text-xs font-semibold px-2.5 py-1 rounded-full border border-amber-500/30 backdrop-blur-md">
-              Stock: {stockUnidades} u.
+            <span className="absolute top-2.5 right-2.5 bg-[#0a0b0e]/85 text-neutral-300 text-[11px] font-bold px-2 py-0.5 rounded-md border border-white/10 backdrop-blur-md">
+              {stockUnidades > 0 ? `${stockUnidades} disponibles` : 'Agotado'}
             </span>
           )}
+
+          {/* Sombra gradiente inferior en la imagen */}
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0e1015] to-transparent opacity-60 pointer-events-none"></div>
         </div>
 
         {/* Título de producto */}
-        <h3 className="text-xl font-bold text-amber-100 mb-2 line-clamp-1 group-hover:text-amber-300 transition-colors">
+        <h3
+          onClick={() => onVerDetalle && onVerDetalle(p)}
+          className={`font-display text-lg font-bold text-white group-hover:text-[#00ff66] transition-colors leading-snug line-clamp-2 mb-2 tracking-wide ${
+            onVerDetalle ? 'cursor-pointer' : ''
+          }`}
+        >
           {name}
         </h3>
 
-        {/* Precio Final destacado en Dorado */}
-        <div className="flex items-baseline gap-1 mb-4">
-          <span className="text-xs font-semibold text-amber-400">ARS</span>
-          <span className="text-2xl font-extrabold text-gold-gradient tracking-tight">
+        {/* Precio Final destacado en Neón Volt */}
+        <div className="flex items-baseline gap-1.5 mb-3">
+          <span className="text-xs font-bold text-neutral-400">ARS</span>
+          <span className="font-display text-2xl font-black text-white group-hover:text-[#00ff66] tracking-tight transition-colors">
             ${typeof precioFinal === 'number' ? precioFinal.toLocaleString('es-AR') : precioFinal}
           </span>
         </div>
       </div>
 
       <div>
-        {/* Detalles de cuotas, garantía y stock */}
-        <div className="border-t border-purple-800/50 pt-3 space-y-2 text-xs text-purple-200/80 mb-4">
+        {/* Cuotas y Garantía Oficial */}
+        <div className="border-t border-white/10 pt-3 space-y-1.5 text-xs text-neutral-400 mb-4">
           {cuotasCantidad != null && cuotasValor != null && (
-            <div className="flex items-center gap-1.5 text-amber-200/90 font-medium">
-              <span className="text-amber-400">💳</span>
+            <div className="flex items-center gap-1.5 text-neutral-300 font-medium">
+              <span className="text-[#00ff66]">💳</span>
               <span>
-                <strong className="text-amber-300 font-bold">{cuotasCantidad}</strong> cuotas de{' '}
-                <strong className="text-amber-300 font-bold">
+                <strong className="text-white font-bold">{cuotasCantidad}</strong> cuotas fijas de{' '}
+                <strong className="text-[#00ff66] font-bold">
                   ${typeof cuotasValor === 'number' ? cuotasValor.toLocaleString('es-AR') : cuotasValor}
                 </strong>
               </span>
             </div>
           )}
           {garantiaMeses != null && (
-            <div className="flex items-center gap-1.5 text-purple-300">
-              <span className="text-amber-400">🛡️</span>
-              <span>Garantía oficial: <strong className="text-purple-100">{garantiaMeses} meses</strong></span>
+            <div className="flex items-center gap-1.5 text-neutral-400 text-[11px]">
+              <span className="text-neutral-300">🛡️</span>
+              <span>Garantía de rendimiento: <strong className="text-neutral-200">{garantiaMeses} meses</strong></span>
             </div>
           )}
         </div>
 
-        {/* Acciones: Botón Agregar al Carrito */}
+        {/* Botón Agregar al Carrito */}
         <button
           onClick={() => agregar(productoParaCarrito, 1)}
-          className="w-full btn-gold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer text-sm tracking-wide font-bold"
+          className="w-full btn-volt py-3 px-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer text-xs font-black tracking-wider transition-all"
         >
-          <span>Agregar al carrito</span>
-          <span className="text-base">🛍️</span>
+          <span>Añadir a la Bolsa</span>
+          <span className="text-sm">⚡</span>
         </button>
 
-        {/* Control exclusivo de Administrador: Quitar / Eliminar Producto */}
+        {/* Control exclusivo de Administrador */}
         {isAdmin && onEliminar && (
           <button
             onClick={() => onEliminar(idProducto)}
-            className="mt-2 w-full bg-red-950/80 hover:bg-red-900 border border-red-500/40 text-red-200 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 cursor-pointer"
+            className="mt-2 w-full bg-red-500/10 hover:bg-red-500/25 border border-red-500/30 text-red-300 text-xs font-bold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 cursor-pointer"
           >
-            <span>🗑️ Eliminar del catálogo (Admin)</span>
+            <span>🗑️ Quitar del catálogo</span>
           </button>
         )}
       </div>

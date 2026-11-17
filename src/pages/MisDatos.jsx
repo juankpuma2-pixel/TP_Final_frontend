@@ -49,52 +49,52 @@ export default function MisDatos() {
     }
   };
 
-  if (cargando) return <p className="text-center py-16 text-amber-300 font-medium">Cargando información personal... ⏳</p>;
+  if (cargando) return <p className="text-center py-16 text-[#00ff66] font-display font-bold text-sm tracking-wider">Cargando perfil de atleta... ⏳</p>;
   if (error) return <p className="text-center py-16 text-red-400 font-medium">{error}</p>;
 
   return (
     <div className="max-w-2xl mx-auto py-8 space-y-6">
       <div>
-        <span className="text-xs uppercase tracking-widest text-amber-400 font-bold">Cuenta de Usuario</span>
-        <h2 className="text-3xl font-serif-gold font-bold text-gold-gradient">Mis Datos Personales</h2>
+        <span className="text-[10px] uppercase tracking-[0.25em] text-[#00ff66] font-black">Ficha del Atleta</span>
+        <h2 className="font-display text-3xl font-black text-white uppercase tracking-wider">Mis Datos Personales</h2>
       </div>
 
-      <div className="bg-purple-card border border-amber-500/30 rounded-2xl p-6 shadow-xl space-y-3 text-sm text-purple-200">
-        <p><strong className="text-amber-300">ID Usuario:</strong> {datos.usuario.id}</p>
-        <p><strong className="text-amber-300">Nombre:</strong> {datos.usuario.nombre}</p>
-        <p><strong className="text-amber-300">Email:</strong> {datos.usuario.email}</p>
-        <p><strong className="text-amber-300">Fecha de consentimiento / registro:</strong> {new Date(datos.usuario.creado_en).toLocaleString('es-AR')}</p>
+      <div className="card-athletic rounded-3xl p-6 sm:p-8 space-y-3.5 text-xs text-neutral-300">
+        <p className="flex justify-between border-b border-white/5 pb-2"><strong className="text-white uppercase tracking-wider">ID Atleta:</strong> <span className="font-mono text-[#00ff66]">#{datos.usuario.id}</span></p>
+        <p className="flex justify-between border-b border-white/5 pb-2"><strong className="text-white uppercase tracking-wider">Nombre:</strong> <span className="text-neutral-100 font-bold">{datos.usuario.nombre}</span></p>
+        <p className="flex justify-between border-b border-white/5 pb-2"><strong className="text-white uppercase tracking-wider">Email Registrado:</strong> <span className="text-neutral-100">{datos.usuario.email}</span></p>
+        <p className="flex justify-between pt-1"><strong className="text-white uppercase tracking-wider">Miembro desde:</strong> <span className="font-mono text-neutral-400">{new Date(datos.usuario.creado_en).toLocaleString('es-AR')}</span></p>
       </div>
 
       <button
         onClick={handleExportar}
-        className="btn-gold text-xs font-bold px-4 py-2.5 rounded-xl cursor-pointer shadow-lg"
+        className="btn-volt text-xs font-black uppercase tracking-wider px-5 py-3 rounded-xl cursor-pointer shadow-lg inline-flex items-center gap-2"
       >
-        📥 Descargar mis datos (.JSON)
+        <span>📥 Descargar Mis Datos (.JSON)</span>
       </button>
 
-      <div className="bg-red-950/60 border border-red-500/40 rounded-2xl p-6 space-y-4 shadow-xl">
-        <h3 className="text-lg font-bold text-red-300">Eliminar mi cuenta</h3>
-        <p className="text-xs text-red-200/80 leading-relaxed">
-          Al confirmar la baja, tus datos personales (nombre, email, contraseña) se <strong>anonimizarán permanentemente</strong>. Tus pedidos anteriores se conservarán por normativas contables pero de forma anonimizada.
+      <div className="card-athletic border border-red-500/30 rounded-3xl p-6 sm:p-8 space-y-4">
+        <h3 className="font-display text-lg font-bold text-red-400 uppercase tracking-wider">Eliminar / Anonimizar Cuenta</h3>
+        <p className="text-xs text-neutral-400 leading-relaxed">
+          Al confirmar la baja, tus datos personales se <strong>anonimizarán permanentemente</strong> en cumplimiento de la normativa de privacidad.
         </p>
 
-        <p className="text-xs text-purple-200 font-medium">Escribí la palabra <strong>ELIMINAR</strong> para confirmar:</p>
+        <p className="text-xs text-neutral-300 font-medium">Escribe la palabra <strong className="text-red-400 font-black">ELIMINAR</strong> para confirmar:</p>
         <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="text"
             value={confirmacion}
             onChange={(e) => setConfirmacion(e.target.value)}
             placeholder="ELIMINAR"
-            className="input-purple rounded-xl px-4 py-2 text-sm focus:border-red-500 flex-1"
+            className="input-stealth rounded-xl px-4 py-2.5 text-xs font-mono uppercase focus:border-red-500 flex-1"
           />
 
           <button
             disabled={confirmacion !== "ELIMINAR" || eliminando}
             onClick={handleEliminarCuenta}
-            className="bg-red-900 hover:bg-red-800 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            className="bg-red-500/10 hover:bg-red-500/25 border border-red-500/30 text-red-300 text-xs font-black uppercase tracking-wider px-5 py-2.5 rounded-xl transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
           >
-            {eliminando ? "Procesando..." : "Confirmar eliminación"}
+            {eliminando ? "Procesando..." : "Confirmar Baja"}
           </button>
         </div>
       </div>

@@ -16,7 +16,7 @@ function App() {
     <AuthProvider>
       <CarritoProvider>
         <BrowserRouter>
-          <div className="min-h-screen bg-[#0b0518] text-purple-100 flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
+          <div className="min-h-screen bg-[#090b0e] text-neutral-100 flex flex-col justify-between selection:bg-[#00ff66] selection:text-[#090b0e]">
             <div>
               <Navbar />
               <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
